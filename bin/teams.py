@@ -39,6 +39,7 @@ if __name__ == "__main__":
         settings = json.loads(sys.stdin.read())
         print >> sys.stderr, "INFO Settings: %s" % settings
         url = settings['configuration'].get('url')
+        message = settings['configuration'].get('message')
         facts = []
         for key,value in settings.get('result').items():
             facts.append({"name":key, "value":value})
@@ -46,6 +47,7 @@ if __name__ == "__main__":
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
             "title":settings.get('search_name'),
+            "summary": "teams test alert was triggered",
             "sections":[
                 {
                     "activityTitle": "Splunk",
