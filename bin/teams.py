@@ -54,7 +54,7 @@ if __name__ == "__main__":
                     "activitySubtitle": settings.get("search_name"),
                     #"facts": [ { "name": "test name", "value": "" } ],
                     "facts": facts,
-                    "text": "oh god halp"
+                    "text": message
                 }
             ],
             "potentialAction":[
