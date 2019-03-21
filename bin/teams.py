@@ -5,6 +5,16 @@ import csv
 import gzip
 from collections import OrderedDict
 
+def escape_markdown(text):
+    # insert backslashes before symbols that are particular to markdown
+    # asterisks
+    text = text.replace("*", "\*")
+    # octothorpes
+    text = text.replace("#", "\#")
+    # tilde
+    text = text.replace("~", "\~")
+    return text
+
 
 def send_webhook_request(url, body, user_agent=None):
     if url is None:
@@ -42,7 +52,11 @@ if __name__ == "__main__":
         message = settings['configuration'].get('message')
         facts = []
         for key,value in settings.get('result').items():
+            key = escape_markdown(key)
+            value = escape_markdown(value)
             facts.append({"name":key, "value":value})
+
+
         body = {
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
@@ -52,7 +66,6 @@ if __name__ == "__main__":
                 {
                     "activityTitle": "Splunk",
                     "activitySubtitle": settings.get("search_name"),
-                    #"facts": [ { "name": "test name", "value": "" } ],
                     "facts": facts,
                     "text": message
                 }
