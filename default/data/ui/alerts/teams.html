@@ -1,4 +1,5 @@
 <form class="form-horizontal form-complex">
+
     <div class="control-group">
         <label class="control-label" for="teams_url">Webhook URL</label>
 
@@ -22,14 +23,14 @@
     </div>
 
     <div class="control-group">
-        <label class="control-label">Send Facts</label>
+        <label class="control-label" for="teams_send_facts">Send Facts</label>
         <div class="controls">
             <select name="action.teams.param.send_facts">
                 <option value="true">Yes</option>
                 <option value="false">No</option>
             </select>
             <span class="help-block">
-                Send the results of the search as "facts" <a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference">facts</a>.
+                Send the results of the search as <a href="https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference">facts</a>.
             </span>
         </div>
     </div>
