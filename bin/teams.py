@@ -65,7 +65,7 @@ if __name__ == "__main__":
             "text": message
         }
         # only set facts in the message if requested
-        if settings.get("send_facts") == "true":
+        if settings['configuration'].get("send_facts") == "true":
             section["facts"] = facts
 
         body = {
