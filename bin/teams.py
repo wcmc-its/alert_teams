@@ -13,6 +13,8 @@ def escape_markdown(text):
     text = text.replace("#", "\#")
     # tilde
     text = text.replace("~", "\~")
+    # underscores
+    text = text.replace("_", "\_")
     return text
 
 
