@@ -50,12 +50,23 @@ if __name__ == "__main__":
         print >> sys.stderr, "INFO Settings: %s" % settings
         url = settings['configuration'].get('url')
         message = settings['configuration'].get('message')
+
+        # build the list of facts from the search results
         facts = []
         for key,value in settings.get('result').items():
             key = escape_markdown(key)
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
 
+        # main message section
+        section = {
+            "activityTitle": "Splunk",
+            "activitySubtitle": settings.get("search_name"),
+            "text": message
+        }
+        # only set facts in the message if requested
+        if settings.get("send_facts") == "true":
+            section["facts"] = facts
 
         body = {
             "@type":"MessageCard",
@@ -63,12 +74,7 @@ if __name__ == "__main__":
             "title":settings.get('search_name'),
             "summary": "teams test alert was triggered",
             "sections":[
-                {
-                    "activityTitle": "Splunk",
-                    "activitySubtitle": settings.get("search_name"),
-                    "facts": facts,
-                    "text": message
-                }
+                section
             ],
             "potentialAction":[
                 {
