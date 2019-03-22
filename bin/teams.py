@@ -56,7 +56,7 @@ if __name__ == "__main__":
         # build the list of facts from the search results
         facts = []
         for key,value in settings.get('result').items():
-            key = escape_markdown(key)
+            # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
 
