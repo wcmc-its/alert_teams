@@ -70,6 +70,7 @@ if __name__ == "__main__":
         if settings['configuration'].get("send_facts") == "true":
             section["facts"] = facts
 
+        # message card body
         body = {
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
