@@ -5,9 +5,13 @@
 			</splunk-text-input>
     </splunk-control-group>
 
-    <br clear="both" />
 
-    <div class="control-group">
+    <splunk-control-group label="Message" help="Enter the chat message to send to the Teams URL.
+		The message can include tokens that insert text based on the results of the search.">
+			<splunk-text-area "action.teams.param.message" id="teams_message">
+			</splunk-text-area>
+		</splunk-control-group>
+<!--
         <label class="control-label" for="teams_message">Message</label>
 
         <div class="controls">
@@ -17,8 +21,7 @@
               The message can include tokens that insert text based on the results of the search.
           </span>
         </div>
-    </div>
-    <br clear="both" />
+-->
 
     <splunk-control-group label="Send Facts" help="Send the results of the search as <a href='https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference'>facts</a>.">
 			<splunk-select "action.teams.param.send_facts">
