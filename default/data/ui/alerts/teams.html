@@ -1,13 +1,10 @@
 <form class="form-horizontal form-complex">
 
-    <div class="control-group">
-        <label class="control-label" for="teams_url">Webhook URL</label>
+    <splunk-control-group label="Webhook URL" help="Enter the Webhook Connector URL for the channel">
+			<splunk-text-input "action.teams.param.url" id="teams_url">
+			</splunk-text-input>
+    </splunk-control-group>
 
-        <div class="controls">
-            <input type="text" name="action.teams.param.url" id="teams_url" />
-            <span class="help-block">Enter the Webhook Connector URL for the channel</span>
-        </div>
-    </div>
     <br clear="both" />
 
     <div class="control-group">
@@ -23,8 +20,15 @@
     </div>
     <br clear="both" />
 
+    <splunk-control-group label="Send Facts" help="Send the results of the search as <a href='https://docs.microsoft.com/en-us/outlook/actionable-messages/message-card-reference'>facts</a>.">
+			<splunk-select "action.teams.param.send_facts">
+				<option>true</option>
+				<option>false</option>
+			</splunk-select>
+		</splunk-control-group>
+		
     <div class="control-group">
-        <label class="control-label" for="teams_send_facts">Send Facts</label>
+		    <label class="control-label" for="teams_send_facts">Send Facts</label>
         <div class="controls">
             <select name="action.teams.param.send_facts">
                 <option value="true">Yes</option>
