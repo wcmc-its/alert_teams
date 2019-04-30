@@ -54,7 +54,7 @@ if __name__ == "__main__":
         message = settings['configuration'].get('message')
 
         # build the list of facts from the search results
-        facts = []
+        facts = OrderedDict()
         for key,value in settings.get('result').items():
             # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
