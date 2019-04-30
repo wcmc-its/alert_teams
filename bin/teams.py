@@ -48,13 +48,14 @@ if __name__ == "__main__":
         print >> sys.stderr, "FATAL Unsupported execution mode (expected --execute flag)"
         sys.exit(1)
     try:
-        settings = json.loads(sys.stdin.read())
-        print >> sys.stderr, "INFO Settings: %s" % settings
+        raw_settings = sys.stdin.read()
+        settings = json.loads(raw_settings)
+        print >> sys.stderr, "INFO Settings: %s" % raw_settings
         url = settings['configuration'].get('url')
         message = settings['configuration'].get('message')
 
         # build the list of facts from the search results
-        facts = OrderedDict()
+        facts = []
         for key,value in settings.get('result').items():
             # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
