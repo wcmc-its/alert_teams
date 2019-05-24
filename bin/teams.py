@@ -49,7 +49,7 @@ if __name__ == "__main__":
         sys.exit(1)
     try:
         raw_settings = sys.stdin.read()
-        settings = json.loads(raw_settings)
+        settings = json.loads(raw_settings, object_pairs_hook=OrderedDict)
         print >> sys.stderr, "INFO Settings: %s" % raw_settings
         url = settings['configuration'].get('url')
         message = settings['configuration'].get('message')
@@ -60,9 +60,6 @@ if __name__ == "__main__":
             # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
-
-        # debug facts order
-        print >> sys.stderr, "INFO Facts: %s" % str(facts)
 
         # main message section
         section = {
