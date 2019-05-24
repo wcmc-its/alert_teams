@@ -60,6 +60,8 @@ if __name__ == "__main__":
             # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
+		# debug facts order
+		print >> sys.stderr, "INFO Facts: %s" % str(facts)
 
         # main message section
         section = {
