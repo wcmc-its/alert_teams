@@ -26,7 +26,6 @@ def send_webhook_request(url, body, user_agent=None):
     print >> sys.stderr, "INFO Body: %s" % body
     try:
         req = urllib2.Request(url, body, {"Content-Type": "application/json", "User-Agent": user_agent})
-        #req = urllib2.Request(url, json.dumps({"text":"bananas from splunk"}), {"Content-Type": "application/json", "User-Agent": user_agent})
         res = urllib2.urlopen(req)
         if 200 <= res.code < 300:
             print >> sys.stderr, "INFO Webhook receiver responded with HTTP status=%d" % res.code
@@ -76,7 +75,7 @@ if __name__ == "__main__":
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
             "title":settings.get('search_name'),
-            "summary": "teams test alert was triggered",
+            "summary":settings.get('search_name'),
             "sections":[
                 section
             ],
