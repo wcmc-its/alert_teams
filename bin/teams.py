@@ -61,8 +61,8 @@ if __name__ == "__main__":
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
 
-		# debug facts order
-		print >> sys.stderr, "INFO Facts: %s" % str(facts)
+        # debug facts order
+        print >> sys.stderr, "INFO Facts: %s" % str(facts)
 
         # main message section
         section = {
