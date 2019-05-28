@@ -26,7 +26,6 @@ def send_webhook_request(url, body, user_agent=None):
     print >> sys.stderr, "INFO Body: %s" % body
     try:
         req = urllib2.Request(url, body, {"Content-Type": "application/json", "User-Agent": user_agent})
-        #req = urllib2.Request(url, json.dumps({"text":"bananas from splunk"}), {"Content-Type": "application/json", "User-Agent": user_agent})
         res = urllib2.urlopen(req)
         if 200 <= res.code < 300:
             print >> sys.stderr, "INFO Webhook receiver responded with HTTP status=%d" % res.code
@@ -48,8 +47,9 @@ if __name__ == "__main__":
         print >> sys.stderr, "FATAL Unsupported execution mode (expected --execute flag)"
         sys.exit(1)
     try:
-        settings = json.loads(sys.stdin.read())
-        print >> sys.stderr, "INFO Settings: %s" % settings
+        raw_settings = sys.stdin.read()
+        settings = json.loads(raw_settings, object_pairs_hook=OrderedDict)
+        print >> sys.stderr, "INFO Settings: %s" % raw_settings
         url = settings['configuration'].get('url')
         message = settings['configuration'].get('message')
 
@@ -75,7 +75,7 @@ if __name__ == "__main__":
             "@type":"MessageCard",
             "@context":"https://schema.org/extensions",
             "title":settings.get('search_name'),
-            "summary": "teams test alert was triggered",
+            "summary":settings.get('search_name'),
             "sections":[
                 section
             ],
