@@ -8,6 +8,7 @@ from collections import OrderedDict
 def escape_markdown(text):
     # insert backslashes before symbols that are particular to markdown
     # asterisks
+    text=str(text)
     text = text.replace("*", "\*")
     # octothorpes
     text = text.replace("#", "\#")
