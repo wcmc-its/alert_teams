@@ -24,7 +24,7 @@ def send_webhook_request(url, body, user_agent=None):
         print("ERROR No URL provided", file=sys.stderr)
         return False
     
-    encoded_body = urllib.parse.urlencode(body).encode()
+    encoded_body = body.encode()
     print("INFO Sending POST request to url=%s with size=%d bytes payload" % (url, len(encoded_body)), file=sys.stderr)
     print("INFO Body: %s" % body, file=sys.stderr)
     try:
