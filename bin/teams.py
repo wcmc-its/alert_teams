@@ -1,6 +1,6 @@
 import sys
 import json
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import csv
 import gzip
 from collections import OrderedDict
@@ -21,42 +21,44 @@ def escape_markdown(text):
 
 def send_webhook_request(url, body, user_agent=None):
     if url is None:
-        print >> sys.stderr, "ERROR No URL provided"
+        print("ERROR No URL provided", file=sys.stderr)
         return False
-    print >> sys.stderr, "INFO Sending POST request to url=%s with size=%d bytes payload" % (url, len(body))
-    print >> sys.stderr, "INFO Body: %s" % body
+    
+    encoded_body = urllib.parse.urlencode(body).encode()
+    print("INFO Sending POST request to url=%s with size=%d bytes payload" % (url, len(encoded_body)), file=sys.stderr)
+    print("INFO Body: %s" % body, file=sys.stderr)
     try:
-        req = urllib2.Request(url, body, {"Content-Type": "application/json", "User-Agent": user_agent})
-        res = urllib2.urlopen(req)
+        req = urllib.request.Request(url, data=encoded_body, headers={"Content-Type": "application/json", "User-Agent": user_agent})
+        res = urllib.request.urlopen(req)
         if 200 <= res.code < 300:
-            print >> sys.stderr, "INFO Webhook receiver responded with HTTP status=%d" % res.code
+            print("INFO Webhook receiver responded with HTTP status=%d" % res.code, file=sys.stderr)
             return True
         else:
-            print >> sys.stderr, "ERROR Webhook receiver responded with HTTP status=%d" % res.code
+            print("ERROR Webhook receiver responded with HTTP status=%d" % res.code, file=sys.stderr)
             return False
-    except urllib2.HTTPError, e:
-        print >> sys.stderr, "ERROR Error sending webhook request: %s" % e
-    except urllib2.URLError, e:
-        print >> sys.stderr, "ERROR Error sending webhook request: %s" % e
-    except ValueError, e:
-        print >> sys.stderr, "ERROR Invalid URL: %s" % e
+    except urllib.error.HTTPError as e:
+        print("ERROR Error sending webhook request: %s" % e, file=sys.stderr)
+    except urllib.error.URLError as e:
+        print("ERROR Error sending webhook request: %s" % e, file=sys.stderr)
+    except ValueError as e:
+        print("ERROR Invalid URL: %s" % e, file=sys.stderr)
     return False
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or sys.argv[1] != "--execute":
-        print >> sys.stderr, "FATAL Unsupported execution mode (expected --execute flag)"
+        print("FATAL Unsupported execution mode (expected --execute flag)", file=sys.stderr)
         sys.exit(1)
     try:
         raw_settings = sys.stdin.read()
         settings = json.loads(raw_settings, object_pairs_hook=OrderedDict)
-        print >> sys.stderr, "INFO Settings: %s" % raw_settings
+        print("INFO Settings: %s" % raw_settings, file=sys.stderr)
         url = settings['configuration'].get('url')
         message = settings['configuration'].get('message')
 
         # build the list of facts from the search results
         facts = []
-        for key,value in settings.get('result').items():
+        for key,value in list(settings.get('result').items()):
             # teams uses markdown in the value field but not the name field
             value = escape_markdown(value)
             facts.append({"name":key, "value":value})
@@ -92,6 +94,6 @@ if __name__ == "__main__":
         user_agent = settings['configuration'].get('user_agent', 'Splunk')
         if not send_webhook_request(url, json.dumps(body), user_agent=user_agent):
             sys.exit(2)
-    except Exception, e:
-        print >> sys.stderr, "ERROR Unexpected error: %s" % e
+    except Exception as e:
+        print("ERROR Unexpected error: %s" % e, file=sys.stderr)
         sys.exit(3)
